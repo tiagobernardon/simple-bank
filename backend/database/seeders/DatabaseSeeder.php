@@ -19,5 +19,19 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        DB::table('transactions')->insert([
+            'amount' => 10.5,
+            'description' => 'Migration transaction as deposit',
+            'type' => 'DEPOSIT',
+            'user_id' => 1,
+        ]);
+
+        DB::table('transactions')->insert([
+            'amount' => 500,
+            'description' => 'Migration transaction as purchase',
+            'type' => 'PURCHASE',
+            'user_id' => 1,
+        ]);
     }
 }

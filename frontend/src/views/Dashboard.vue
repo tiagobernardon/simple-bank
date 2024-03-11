@@ -23,11 +23,15 @@
         <v-card>
           <v-card-title>Incomes</v-card-title>
 
-          <v-card-text>
+          <v-card-text class="d-flex justify-space-between align-center">
             <div class="text-h4">
               $200,00
+
             </div>
-          </v-card-text>  
+
+            <v-btn density="compact" icon="mdi-plus" color="primary"></v-btn>
+
+          </v-card-text>
         </v-card>
       </v-col>
 
@@ -35,11 +39,13 @@
         <v-card>
           <v-card-title>Expenses</v-card-title>
 
-          <v-card-text>
+          <v-card-text class="d-flex justify-space-between align-center">
             <div class="text-h4">
               $5,00
             </div>
-          </v-card-text> 
+
+            <v-btn density="compact" icon="mdi-plus" color="primary"></v-btn>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -58,6 +64,8 @@
           :loading="loading"
           :loading-text="'Loading Transactions'">
 
+          <template v-slot:bottom>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
@@ -73,8 +81,10 @@ const items = ref([]);
 const loading = ref(false)
 
 const headers = [
-  { title: 'Descrição', key: 'description' },
-  { title: 'Valor', key: 'amount' }
+  { title: 'Description', key: 'description' },
+  { title: 'Amount', key: 'amount' },
+  { title: 'Type', key: 'type' },
+  { title: 'Status', key: 'status' },
 ];
 
 const fetchTransactions = async () => {

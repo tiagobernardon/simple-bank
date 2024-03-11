@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             'amount' => 10.5,
             'description' => 'Migration transaction as deposit',
             'type' => 'DEPOSIT',
+            'status' => 'APPROVED',
             'user_id' => 1,
         ]);
 
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
             'amount' => 500,
             'description' => 'Migration transaction as purchase',
             'type' => 'PURCHASE',
+            'status' => 'REJECTED',
             'user_id' => 1,
         ]);
     }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->decimal('amount', 12, 2)->nullable(false);
             $table->text('description')->nullable(false);
             $table->string('type')->nullable(false);
+            $table->string('status')->nullable(false);
             $table->integer('user_id');
             $table->timestamps();
         });

@@ -1,5 +1,7 @@
 // Composables
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { useAppStore } from '@/store/app';
 
 const routes = [
   {
@@ -7,9 +9,14 @@ const routes = [
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
-        path: '/login',
+        path: 'login',
         name: 'Login',
         component: () => import('@/views/Login.vue'),
+      },
+      {
+        path: 'register',
+        name: 'Register',
+        component: () => import('@/views/Register.vue'),
       },
       {
         path: 'dashboard',
@@ -23,11 +30,24 @@ const routes = [
       },
     ],
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-})
+});
+
+router.beforeEach(async (to, from) => {
+  const store = useAppStore()
+  const { isAuthenticated } = storeToRefs(store)
+
+  if (!isAuthenticated.value && (to.name !== 'Login' && to.name !== 'Register')) {
+    return { name: 'Login' }
+  }
+
+  if (isAuthenticated.value && to.name === 'Login') {
+    return { name: 'Dashboard' }
+  }
+});
 
 export default router

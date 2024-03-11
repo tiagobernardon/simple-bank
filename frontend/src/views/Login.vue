@@ -11,23 +11,24 @@
               <v-text-field
                 variant="outlined"
                 v-model="form.email"
-                :rules="[required, email]"
-                :disabled="loadingLogin"
-                label="Email"
-                type="email">
+                :rules="[required]"
+                :disabled="loading"
+                label="Username"
+                prepend-inner-icon="mdi-account">
               </v-text-field>
 
               <v-text-field
                 variant="outlined"
                 v-model="form.password"
                 :rules="[required]"
-                :disabled="loadingLogin"
-                label="Senha"
-                type="password">
+                :disabled="loading"
+                label="Password"
+                type="password"
+                prepend-inner-icon="mdi-lock-outline">
               </v-text-field>
 
               <div class="text-center">
-                <v-btn :loading="loadingLogin" color="primary" type="submit">Login</v-btn>
+                <v-btn :loading="loading" color="primary" type="submit">Login</v-btn>
               </div>
             </v-form>
           </v-card-text>
@@ -37,8 +38,10 @@
           </div>
 
           <div class="text-center pb-4">
-            <v-btn :loading="loadingLogin" color="secondary">Create Account</v-btn>
-          </div>              
+            <router-link :to="{ name: 'Register' }">
+              <v-btn :loading="loading" color="secondary">Create an account</v-btn>
+            </router-link>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -49,7 +52,7 @@
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { email, required } from '@/utils/formValidation.js';
+import { required } from '@/utils/formValidation.js';
 
 const router = useRouter();
 
@@ -60,8 +63,8 @@ const form = ref({
 
 const isFormValid = ref(false);
 
-const loadingLogin = ref(false);
-  
+const loading = ref(false);
+
 async function onLogin() {
   if (isFormValid.value) {
     console.log('Will Login');

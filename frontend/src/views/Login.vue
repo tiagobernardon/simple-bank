@@ -10,7 +10,7 @@
 
               <v-text-field
                 variant="outlined"
-                v-model="form.email"
+                v-model="form.username"
                 :rules="[required]"
                 :disabled="loading"
                 label="Username"
@@ -50,15 +50,16 @@
 </template>
     
 <script setup>
-
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { required } from '@/utils/formValidation.js';
 
+import appService from '@/services/appService';
+
 const router = useRouter();
 
 const form = ref({
-  email: null,
+  username: null,
   password: null
 });
 
@@ -68,7 +69,17 @@ const loading = ref(false);
 
 async function onLogin() {
   if (isFormValid.value) {
-    console.log('Will Login');
+    loading.value = true;
+
+    await appService.login(form.value.username, form.value.password).then(() => {
+      router.push({ name: 'Dashboard' })
+    })
+    .catch(error => {
+      console.error('Throw error')
+    })
+    .finally(() => {
+      loading.value = false
+    });
   }
 }
   

@@ -73,8 +73,8 @@
 </template>
 
 <script setup>
-
 import { onMounted, ref } from 'vue';
+
 import transactionService from '@/services/transactionService';
 
 const items = ref([]);

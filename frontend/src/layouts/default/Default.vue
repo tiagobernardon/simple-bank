@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-  import AppBar from './AppBar.vue'
-  import NavDrawer from './NavDrawer.vue'
-  import DefaultView from './View.vue'
+import AppBar from './AppBar.vue';
+import NavDrawer from './NavDrawer.vue';
+import DefaultView from './View.vue';
 </script>

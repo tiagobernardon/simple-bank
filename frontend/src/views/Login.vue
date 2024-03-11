@@ -2,7 +2,6 @@
   <v-container fluid class="login-container">
     <v-row justify="center">
       <v-col md="3">
-
         <v-card>
           <v-card-title class="text-center pb-5">BNB Bank Login</v-card-title>
 
@@ -41,7 +40,6 @@
             <v-btn :loading="loadingLogin" color="secondary">Create Account</v-btn>
           </div>              
         </v-card>
-
       </v-col>
     </v-row>
   </v-container>
@@ -58,15 +56,15 @@ const router = useRouter();
 const form = ref({
   email: null,
   password: null
-})
+});
 
-const isFormValid = ref(false)
+const isFormValid = ref(false);
 
-const loadingLogin = ref(false)
+const loadingLogin = ref(false);
   
 async function onLogin() {
   if (isFormValid.value) {
-    console.log('Will Login')
+    console.log('Will Login');
   }
 }
   

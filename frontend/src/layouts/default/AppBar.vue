@@ -8,13 +8,13 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useAppStore } from '@/store/app'
+import { storeToRefs } from 'pinia';
+import { useAppStore } from '@/store/app';
 
-const store = useAppStore()
-const { drawer } = storeToRefs(store)
+const store = useAppStore();
+const { drawer } = storeToRefs(store);
 
 const toggleNavDrawer = async () => {
-    store.setDrawer(!drawer.value)
+    store.setDrawer(!drawer.value);
 }; 
 </script>

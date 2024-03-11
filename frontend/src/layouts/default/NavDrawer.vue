@@ -10,12 +10,12 @@
 
 <script setup>
 
-import { storeToRefs } from 'pinia'
-import { useAppStore } from '@/store/app'
+import { storeToRefs } from 'pinia';
+import { useAppStore } from '@/store/app';
 
-const store = useAppStore()
+const store = useAppStore();
 
-const { drawer } = storeToRefs(store)
+const { drawer } = storeToRefs(store);
 
 </script>
 

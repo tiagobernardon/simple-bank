@@ -18,9 +18,10 @@
                 </v-text-field>
 
                 <v-text-field
+                  class="pb-2"
                   variant="outlined"
                   v-model="form.password"
-                  :rules="[required]"
+                  :rules="[required, password]"
                   :disabled="loading"
                   label="Password"
                   type="password"
@@ -52,7 +53,7 @@
   
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import { required } from '@/utils/formValidation.js';
+  import { required, password } from '@/utils/formValidation.js';
   
   const router = useRouter();
   

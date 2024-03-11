@@ -18,6 +18,7 @@
               </v-text-field>
 
               <v-text-field
+                class="pb-2"
                 variant="outlined"
                 v-model="form.password"
                 :rules="[required]"

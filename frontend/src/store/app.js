@@ -4,7 +4,11 @@ import { defineStore } from 'pinia'
 export const useAppStore = defineStore('app', {
   state: () => ({
     user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {},
-    drawer: false
+    drawer: false,
+    snackbar: {
+      show: false,
+      message: ''
+    }
   }),
   actions: {
     setDrawer(value) {
@@ -12,6 +16,9 @@ export const useAppStore = defineStore('app', {
     },
     setUser(value) {
       this.user = value;
+    },
+    setSnackbar(value) {
+      this.snackbar = value;
     }
   }
 })

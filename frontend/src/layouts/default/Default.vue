@@ -2,6 +2,21 @@
   <v-app>
     <app-bar v-if="user.username" />
     <nav-drawer v-if="user.username" />
+
+    <v-snackbar v-model="snackbar.show">
+      {{ snackbar.message }}
+
+      <template v-slot:actions>
+        <v-btn
+          color="pink"
+          variant="text"
+          @click="snackbar.show = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
     <default-view />
   </v-app>
 </template>
@@ -11,24 +26,47 @@ import AppBar from './AppBar.vue';
 import NavDrawer from './NavDrawer.vue';
 import DefaultView from './View.vue';
 
+import axios from 'axios';
 import { onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
+import { useRouter } from 'vue-router';
 
 const store = useAppStore();
-const { user } = storeToRefs(store);
+const router = useRouter();
+
+const { user, snackbar } = storeToRefs(store);
 
 store.$subscribe((mutation) => {
-  let { key, newValue } = mutation.events
+  let { key, newValue } = mutation.events;
 
   if (key === 'user') {
-    localStorage.setItem('user', JSON.stringify(newValue))
+    localStorage.setItem('user', JSON.stringify(newValue));
   }
 })
 
 onBeforeMount(() => {
   if (localStorage.getItem('user')) {
-    store.setUser(JSON.parse(localStorage.getItem('user')))
+    store.setUser(JSON.parse(localStorage.getItem('user')));
   }
+});
+
+// API interceptor
+axios.interceptors.response.use(function (response) {
+    return response;
+  }, function (error) {
+    let status = error?.response?.status
+
+    if (status && status === 401) {
+      store.setUser({});
+      router.push({ name: 'Login' });
+    }
+
+    store.setSnackbar({
+      show: true,
+      message: error?.response?.data?.message || "Error"
+    });
+  
+    return Promise.reject(error);
 });
 </script>

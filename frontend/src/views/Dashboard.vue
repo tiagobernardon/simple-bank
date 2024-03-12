@@ -87,16 +87,16 @@ const headers = [
 ];
 
 const fetchTransactions = async () => {
-  loading.value = true
+  loading.value = true;
 
   await transactionService.get().then(res => {
-      items.value = res
+      items.value = res;
   })
-  .catch(error => {
-    console.error('add alert')
+  .catch(() => {
+      console.error('error');
   })
   .finally(() => {
-    loading.value = false
+    loading.value = false;
   });
 };
 

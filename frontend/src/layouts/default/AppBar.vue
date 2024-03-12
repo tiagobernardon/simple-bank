@@ -29,21 +29,21 @@ const router = useRouter();
 
 const { drawer } = storeToRefs(store);
 
-const loadingLogout = ref(false)
+const loadingLogout = ref(false);
 
 const toggleNavDrawer = () => store.setDrawer(!drawer.value);
 
 async function onLogout() {
-  loadingLogout.value = true
+  loadingLogout.value = true;
 
   await appService.logout().then(() => {
-    router.push('/login')
+    router.push('/login');
   })
-  .catch(error => {
-    console.error('Throw error')
+  .catch(() => {
+    console.error('error');
   })
   .finally(() => {
-    loadingLogout.value = false
+    loadingLogout.value = false;
   });
 }
 </script>

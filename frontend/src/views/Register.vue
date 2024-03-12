@@ -9,6 +9,7 @@
             <v-form validate-on="blur" v-model="isFormValid" @submit.prevent="onRegister">
 
               <v-text-field
+                class="pb-2"
                 variant="outlined" 
                 v-model="form.username"
                 :rules="[required, username]"
@@ -74,16 +75,16 @@ async function onRegister() {
 
     await userService.create(form.value.username, form.value.password).then(async() => {
 
-      // Get user data after registration
       await userService.get().then(() => {
-        router.push({ name: 'Dashboard' })
+        router.push({ name: 'Dashboard' });
       })
-      .catch(error => {
-        throw error
-      })
+      .catch(() => {
+        console.error('error');
+      });
+
     })
-    .catch(error => {
-      console.error('Throw error')
+    .catch(() => {
+      console.error('error');
     })
     .finally(() => {
       loading.value = false

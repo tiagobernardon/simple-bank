@@ -9,6 +9,7 @@
             <v-form validate-on="blur" v-model="isFormValid" @submit.prevent="onLogin">
 
               <v-text-field
+                class="pb-2"
                 variant="outlined"
                 v-model="form.username"
                 :rules="[required]"
@@ -76,17 +77,17 @@ async function onLogin() {
 
       // Get user data after login
       await userService.get().then(() => {
-        router.push({ name: 'Dashboard' })
+        router.push({ name: 'Dashboard' });
       })
       .catch(error => {
-        throw error
+        throw error;
       })
     })
-    .catch(error => {
-      console.error('Throw error')
+    .catch(() => {
+      console.error('error');
     })
     .finally(() => {
-      loading.value = false
+      loading.value = false;
     });
   }
 }

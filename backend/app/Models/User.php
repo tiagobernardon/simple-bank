@@ -11,6 +11,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+use App\Models\Wallet;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -43,6 +45,16 @@ class User extends Authenticatable
     protected $casts = [        
         'password' => 'hashed',
     ];
+
+    protected static function booted(): void
+    {
+        static::created(function (User $user) {
+            Wallet::create([
+                'balance' => 0.00,
+                'user_id' => $user->id,
+            ]);
+        });
+    }
 
     public function transactions(): HasMany
     {

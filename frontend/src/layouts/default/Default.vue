@@ -45,10 +45,18 @@ store.$subscribe((mutation) => {
   }
 })
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   if (localStorage.getItem('user')) {
     store.setUser(JSON.parse(localStorage.getItem('user')));
   }
+
+  axios.defaults.withCredentials = true;
+  axios.defaults.withXSRFToken = true;
+
+  const AUTH_URL = import.meta.env.VITE_BACKEND_URL;
+
+  //Initialize CSRF protection
+  await axios.get(`${AUTH_URL}/sanctum/csrf-cookie`);
 });
 
 // API interceptor
@@ -57,7 +65,7 @@ axios.interceptors.response.use(function (response) {
   }, function (error) {
     let status = error?.response?.status
 
-    if (status && status === 401) {
+    if (status && status === 401 || status === 419) {
       store.setUser({});
       router.push({ name: 'Login' });
     }

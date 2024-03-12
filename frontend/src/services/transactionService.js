@@ -8,7 +8,7 @@ axios.defaults.withXSRFToken = true;
 const create = async ({ decription, amount }) => {
   let response = await axios.get(`${API_URL}/transactions`);
 
-  await axios.post(`${API_URL}/transactions`, {
+  await axios.post(`${API_URL}/transaction`, {
     decription: decription,
     amount: amount
   })
@@ -22,5 +22,6 @@ const get = async () => {
 };
 
 export default {
+  create,
   get
 };

@@ -15,7 +15,7 @@
                 :rules="[required, username]"
                 :disabled="loading"
                 label="Username"
-                prepend-inner-icon="mdi-account">
+                prepend-inner-icon="mdi-account-outline">
               </v-text-field>
 
               <v-text-field

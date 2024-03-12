@@ -31,7 +31,7 @@
 
             <v-tooltip text="Deposit a Check">
               <template v-slot:activator="{ props }">
-                <v-btn density="compact" icon="mdi-plus" color="primary" v-bind="props"></v-btn>
+                <v-btn @click="store.setDepositDialog(true)" density="compact" icon="mdi-plus" color="primary" v-bind="props"></v-btn>
               </template>
             </v-tooltip>
 
@@ -80,6 +80,8 @@
 
     <purchase-dialog></purchase-dialog>
 
+    <deposit-dialog></deposit-dialog>
+
   </v-container>
 </template>
 
@@ -89,11 +91,13 @@ import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
 
 import PurchaseDialog from '@/components/PurchaseDialog.vue';
+import DepositDialog from '@/components/DepositDialog.vue';
+
 import transactionService from '@/services/transactionService';
 
 const store = useAppStore();
 
-const { purchaseDialog } = storeToRefs(store);
+const { purchaseDialog, depositDialog } = storeToRefs(store);
 
 const items = ref([]);
 const loading = ref(false)

@@ -41,6 +41,14 @@ router.beforeEach(async (to, from) => {
   const store = useAppStore()
   const { user } = storeToRefs(store)
 
+  if (user.value.type === 'ADMIN' && to.name !== 'Admin') {
+    return { name: 'Admin' }    
+  }
+  
+  if (user.value.type !== 'ADMIN' && to.name === 'Admin') {
+    return { name: 'Dashboard' }    
+  }
+
   if (!user.value.username && (to.name !== 'Login' && to.name !== 'Register')) {
     return { name: 'Login' }
   }

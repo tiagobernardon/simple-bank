@@ -37,7 +37,7 @@ async function onLogout() {
   loadingLogout.value = true;
 
   await appService.logout().then(() => {
-    router.push('/login');
+    router.push({ name: 'Login' });
   })
   .catch(() => {
     console.error('error');

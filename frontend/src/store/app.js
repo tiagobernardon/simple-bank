@@ -8,7 +8,8 @@ export const useAppStore = defineStore('app', {
     snackbar: {
       show: false,
       message: ''
-    }
+    },
+    purchaseDialog: false
   }),
   actions: {
     setDrawer(value) {
@@ -19,6 +20,9 @@ export const useAppStore = defineStore('app', {
     },
     setSnackbar(value) {
       this.snackbar = value;
+    },
+    setPurchaseDialog(value) {
+      this.purchaseDialog = value;
     }
   }
 })

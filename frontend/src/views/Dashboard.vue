@@ -43,7 +43,7 @@
               $5,00
             </div>
 
-            <v-btn density="compact" icon="mdi-plus" color="primary"></v-btn>
+            <v-btn @click="store.setPurchaseDialog(true)" density="compact" icon="mdi-plus" color="primary"></v-btn>
           </v-card-text>
         </v-card>
       </v-col>
@@ -68,13 +68,23 @@
         </v-data-table>
       </v-col>
     </v-row>
+
+    <purchase-dialog></purchase-dialog>
+
   </v-container>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useAppStore } from '@/store/app';
 
+import PurchaseDialog from '@/components/PurchaseDialog.vue';
 import transactionService from '@/services/transactionService';
+
+const store = useAppStore();
+
+const { purchaseDialog } = storeToRefs(store);
 
 const items = ref([]);
 const loading = ref(false)

@@ -7,6 +7,8 @@ axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
 const create = async (username, password) => {
+  await axios.get(`${BACKEND_URL}/sanctum/csrf-cookie`);
+
   await axios.post(`${BACKEND_URL}/register`, {
       username: username,
       password: password

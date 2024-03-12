@@ -73,7 +73,7 @@ async function onLogin() {
   if (isFormValid.value) {
     loading.value = true;
 
-    await appService.login(form.value.username, form.value.password).then(async() => {
+    await appService.login(form.value).then(async() => {
 
       // Get user data after login
       await userService.get().then(() => {

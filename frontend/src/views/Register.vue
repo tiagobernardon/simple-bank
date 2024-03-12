@@ -51,7 +51,6 @@
 </template>
       
 <script setup>
-
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { required, password, username } from '@/utils/formValidation.js';
@@ -73,7 +72,7 @@ async function onRegister() {
   if (isFormValid.value) {
     loading.value = true;
 
-    await userService.create(form.value.username, form.value.password).then(async() => {
+    await userService.create(form.value).then(async() => {
 
       await userService.get().then(() => {
         router.push({ name: 'Dashboard' });
@@ -87,7 +86,7 @@ async function onRegister() {
       console.error('error');
     })
     .finally(() => {
-      loading.value = false
+      loading.value = false;
     });
   }
 }

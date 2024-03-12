@@ -28,7 +28,12 @@
               $500.000,00
             </div>
 
-            <v-btn density="compact" icon="mdi-plus" color="primary"></v-btn>
+
+            <v-tooltip text="Deposit a Check">
+              <template v-slot:activator="{ props }">
+                <v-btn density="compact" icon="mdi-plus" color="primary" v-bind="props"></v-btn>
+              </template>
+            </v-tooltip>
 
           </v-card-text>
         </v-card>
@@ -43,7 +48,11 @@
               $5,00
             </div>
 
-            <v-btn @click="store.setPurchaseDialog(true)" density="compact" icon="mdi-plus" color="primary"></v-btn>
+            <v-tooltip text="Purchase">
+              <template v-slot:activator="{ props }">
+                <v-btn @click="store.setPurchaseDialog(true)" density="compact" icon="mdi-plus" color="primary" v-bind="props"></v-btn>
+              </template>
+            </v-tooltip>
           </v-card-text>
         </v-card>
       </v-col>

@@ -5,7 +5,7 @@
     >
     <v-card title="Add Purchase">
       <v-card-text>
-        Add Purchase
+        <purchase-form></purchase-form>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -15,19 +15,10 @@
         <v-spacer></v-spacer>
 
         <v-btn
-          text="Fechar"
+          text="Cancel"
           @click="store.setPurchaseDialog(false)"
         ></v-btn>
-
-        <v-btn
-          color="primary"
-          text="Salvar"
-          variant="tonal"
-          @click="store.setPurchaseDialog(false)"
-        ></v-btn>
-
       </v-card-actions>
-
     </v-card>
   </v-dialog>
 </template>
@@ -35,6 +26,8 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
+
+import PurchaseForm from '@/components/PurchaseForm.vue';
 
 const store = useAppStore();
 

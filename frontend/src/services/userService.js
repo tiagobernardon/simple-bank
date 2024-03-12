@@ -6,7 +6,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
-const create = async (username, password) => {
+const create = async ({ username, password }) => {
   await axios.get(`${BACKEND_URL}/sanctum/csrf-cookie`);
 
   await axios.post(`${BACKEND_URL}/register`, {

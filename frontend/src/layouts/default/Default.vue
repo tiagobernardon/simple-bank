@@ -65,10 +65,10 @@ axios.interceptors.response.use(function (response) {
   }, function (error) {
     let status = error?.response?.status
 
-    if (status && status === 401 || status === 419) {
-      store.setUser({});
-      router.push({ name: 'Login' });
-    }
+    // if (status && status === 401 || status === 419) {
+    //   store.setUser({});
+    //   router.push({ name: 'Login' });
+    // }
 
     store.setSnackbar({
       show: true,

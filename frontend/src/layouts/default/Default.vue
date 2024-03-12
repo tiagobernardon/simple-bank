@@ -50,13 +50,13 @@ onBeforeMount(async () => {
     store.setUser(JSON.parse(localStorage.getItem('user')));
   }
 
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
+  // axios.defaults.withCredentials = true;
+  // axios.defaults.withXSRFToken = true;
 
-  const AUTH_URL = import.meta.env.VITE_BACKEND_URL;
+  // const AUTH_URL = import.meta.env.VITE_BACKEND_URL;
 
-  //Initialize CSRF protection
-  await axios.get(`${AUTH_URL}/sanctum/csrf-cookie`);
+  // //Initialize CSRF protection
+  // await axios.get(`${AUTH_URL}/sanctum/csrf-cookie`);
 });
 
 // API interceptor

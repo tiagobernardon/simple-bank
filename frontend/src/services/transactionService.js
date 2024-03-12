@@ -5,12 +5,11 @@ const API_URL = import.meta.env.VITE_BACKEND_URL + '/api';
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
-const create = async ({ decription, amount }) => {
-  let response = await axios.get(`${API_URL}/transactions`);
-
-  await axios.post(`${API_URL}/transaction`, {
-    decription: decription,
-    amount: amount
+const create = async ({ description, amount, type }) => {
+  await axios.post(`${API_URL}/transactions`, {
+    description: description,
+    amount: amount,
+    type: type
   })
   return response?.data || [];
 };

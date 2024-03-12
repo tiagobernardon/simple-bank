@@ -3,7 +3,7 @@
     <v-text-field    
       class="pb-2"
       variant="outlined"
-      v-model="form.decription"
+      v-model="form.description"
       :rules="[required]"
       :disabled="loading"
       label="Description"
@@ -34,8 +34,9 @@ import { required } from '@/utils/formValidation.js';
 import transactionService from '@/services/transactionService';
 
 const form = ref({
-  decription: null,
-  amount: null
+  description: null,
+  amount: null,
+  type: 'PURCHASE'
 });
 
 const isFormValid = ref(false);

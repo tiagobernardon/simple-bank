@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\TransactionTypeEnum;
 
 class StoreTransactionRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreTransactionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,13 @@ class StoreTransactionRequest extends FormRequest
      */
     public function rules(): array
     {
+        $type = TransactionTypeEnum::Purchase->value;
+
         return [
-            //
+            'description' => ['required', 'string'],
+            'amount' => ['required', 'decimal:2'],
+            'type' => ['required', 'string'],
+            'check' => ['exclude_if:type,'.$type, 'required']
         ];
     }
 }

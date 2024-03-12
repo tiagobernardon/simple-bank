@@ -20,5 +20,5 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::resource('transactions', TransactionController::class)->only(['create', 'index']);
+    Route::resource('transactions', TransactionController::class)->only(['store', 'index']);
 });

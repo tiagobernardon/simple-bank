@@ -24,19 +24,13 @@ class TransactionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreTransactionRequest $request)
     {
-        //
+        if ($request->user()->cannot('store', Transaction::class)) {
+            return response()->json(['error' => 'Not authorized.'], 403);
+        }
     }
 
     /**

@@ -1,12 +1,12 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_BACKEND_URL + '/api';
 
 const get = async () => {
   try {
-    let { data } = await axios.get(`${API_URL}/transactions`)
+    let { data } = await axios.get(`${API_URL}/transactions`);
 
-    return data
+    return data;
   } catch (error) {
       throw error;
   }

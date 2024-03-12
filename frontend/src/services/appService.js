@@ -1,7 +1,7 @@
-import axios from 'axios'
-import { useAppStore } from '@/store/app'
+import axios from 'axios';
+import { useAppStore } from '@/store/app';
 
-const AUTH_URL = import.meta.env.VITE_AUTH_URL
+const AUTH_URL = import.meta.env.VITE_BACKEND_URL;
 
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
@@ -15,11 +15,11 @@ const login = async (username, password) => {
         username: username,
         password: password
     }).then(async () => {
-        const store = useAppStore()
-        store.setIsAuthenticated(true)
+        const store = useAppStore();
+        store.setIsAuthenticated(true);
     })
     .catch(error => {
-        throw error
+        throw error;
     });
    } catch (error) {
         throw error;
@@ -29,11 +29,11 @@ const login = async (username, password) => {
 const logout = async () => {
     try {
      await axios.post(`${AUTH_URL}/logout`).then(async () => {
-        const store = useAppStore()
-        store.setIsAuthenticated(false)
+        const store = useAppStore();
+        store.setIsAuthenticated(false);
      })
      .catch(error => {
-         throw error
+         throw error;
      });
     } catch (error) {
          throw error;

@@ -25,8 +25,7 @@
 
           <v-card-text class="d-flex justify-space-between align-center">
             <div class="text-h4">
-              $200,00
-
+              $500.000,00
             </div>
 
             <v-btn density="compact" icon="mdi-plus" color="primary"></v-btn>
@@ -104,5 +103,4 @@ const fetchTransactions = async () => {
 onMounted(async () => {
   fetchTransactions()
 });
-
 </script>

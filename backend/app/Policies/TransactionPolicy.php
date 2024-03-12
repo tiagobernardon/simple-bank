@@ -12,9 +12,9 @@ class TransactionPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(Transaction $transaction, User $user): bool
+    public function viewAll(User $user): bool
     {
-        return $user->type === UserTypeEnum::Admin || ($user->id === $transaction->user_id); 
+        return $user->type === UserTypeEnum::Admin; 
     }
 
     /**

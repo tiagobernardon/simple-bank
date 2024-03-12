@@ -16,8 +16,12 @@ return new class extends Migration
             $table->decimal('amount', 12, 2)->nullable(false);
             $table->text('description')->nullable(false);
             $table->string('type')->nullable(false);
+            $table->string('check')->nullable();
             $table->string('status')->nullable(false);
-            $table->integer('user_id');
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }

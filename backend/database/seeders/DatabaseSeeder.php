@@ -16,32 +16,70 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
+
+
+        \App\Models\User::factory()->create([
+            'username' => '1',
+            'password' => Hash::make('1'),
+            'type' => 'DEFAULT'
+        ]);
+
+        \App\Models\User::factory()->create([
+            'username' => '2',
+            'password' => Hash::make('2'),
+            'type' => 'DEFAULT'
+        ]);
+
+        \App\Models\User::factory()->create([
+            'username' => '3',
+            'password' => Hash::make('3'),
+            'type' => 'DEFAULT'
+        ]);
+
         \App\Models\User::factory()->create([
             'username' => 'admin',
             'password' => Hash::make('123'),
             'type' => 'ADMIN'
         ]);
 
-        \App\Models\User::factory()->create([
-            'username' => 'default',
-            'password' => Hash::make('123'),
-            'type' => 'DEFAULT'
-        ]);
-
         DB::table('transactions')->insert([
             'amount' => 10.5,
-            'description' => 'Migration transaction as deposit',
+            'description' => 'FIRST TRANSACTION',
             'type' => 'DEPOSIT',
             'status' => 'APPROVED',
             'user_id' => 1,
         ]);
 
         DB::table('transactions')->insert([
-            'amount' => 500,
-            'description' => 'Migration transaction as purchase',
+            'amount' => 500.54,
+            'description' => 'SECOND TRANSACTION',
             'type' => 'PURCHASE',
             'status' => 'REJECTED',
             'user_id' => 1,
+        ]);
+
+        DB::table('transactions')->insert([
+            'amount' => 142.76,
+            'description' => 'THIS APPEAR ONLY FOR 2',
+            'type' => 'DEPOSIT',
+            'status' => 'PENDING',
+            'user_id' => 2,
+        ]);
+
+        DB::table('transactions')->insert([
+            'amount' => 9.5,
+            'description' => 'only for 3',
+            'type' => 'DEPOSIT',
+            'status' => 'PENDING',
+            'user_id' => 3,
+        ]);
+
+        DB::table('transactions')->insert([
+            'amount' => 56.00,
+            'description' => 'only for 3',
+            'type' => 'DEPOSIT',
+            'status' => 'PENDING',
+            'user_id' => 3,
         ]);
     }
 }

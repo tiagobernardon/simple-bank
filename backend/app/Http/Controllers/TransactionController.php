@@ -14,9 +14,11 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        // $this->authorize('viewAny', Transaction::class);
-
-        $transactions = Transaction::all();
+        if ($request->user()->cannot('viewAll', Transaction::class)) {
+            $transactions = $request->user()->transactions;
+        } else {
+            $transactions = Transaction::all();
+        }
 
         return response()->json($transactions, 200);
     }

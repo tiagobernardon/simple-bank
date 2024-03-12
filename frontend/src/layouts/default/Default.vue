@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <app-bar v-if="isAuthenticated" />
-    <nav-drawer v-if="isAuthenticated" />
+    <app-bar v-if="user.username" />
+    <nav-drawer v-if="user.username" />
     <default-view />
   </v-app>
 </template>
@@ -16,21 +16,19 @@ import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
 
 const store = useAppStore();
-const { isAuthenticated } = storeToRefs(store);
+const { user } = storeToRefs(store);
 
 store.$subscribe((mutation) => {
   let { key, newValue } = mutation.events
 
-  if (key === 'isAuthenticated') {
-    localStorage.setItem('auth', newValue)
+  if (key === 'user') {
+    localStorage.setItem('user', JSON.stringify(newValue))
   }
 })
 
 onBeforeMount(() => {
-  if (localStorage.getItem('auth')) {
-    if (localStorage.getItem('auth') === 'true') {
-      store.setIsAuthenticated(true)
-    }
+  if (localStorage.getItem('user')) {
+    store.setUser(JSON.parse(localStorage.getItem('user')))
   }
 });
 </script>

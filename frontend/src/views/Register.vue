@@ -72,8 +72,15 @@ async function onRegister() {
   if (isFormValid.value) {
     loading.value = true;
 
-    await userService.create(form.value.username, form.value.password).then(() => {
-      router.push({ name: 'Dashboard' })
+    await userService.create(form.value.username, form.value.password).then(async() => {
+
+      // Get user data after registration
+      await userService.get().then(() => {
+        router.push({ name: 'Dashboard' })
+      })
+      .catch(error => {
+        throw error
+      })
     })
     .catch(error => {
       console.error('Throw error')

@@ -39,13 +39,13 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   const store = useAppStore()
-  const { isAuthenticated } = storeToRefs(store)
+  const { user } = storeToRefs(store)
 
-  if (!isAuthenticated.value && (to.name !== 'Login' && to.name !== 'Register')) {
+  if (!user.value.username && (to.name !== 'Login' && to.name !== 'Register')) {
     return { name: 'Login' }
   }
 
-  if (isAuthenticated.value && to.name === 'Login') {
+  if (user.value.username && to.name === 'Login') {
     return { name: 'Dashboard' }
   }
 });

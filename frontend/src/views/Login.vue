@@ -55,6 +55,7 @@ import { useRouter } from 'vue-router';
 import { required } from '@/utils/formValidation.js';
 
 import appService from '@/services/appService';
+import userService from '@/services/userService';
 
 const router = useRouter();
 
@@ -71,8 +72,15 @@ async function onLogin() {
   if (isFormValid.value) {
     loading.value = true;
 
-    await appService.login(form.value.username, form.value.password).then(() => {
-      router.push({ name: 'Dashboard' })
+    await appService.login(form.value.username, form.value.password).then(async() => {
+
+      // Get user data after login
+      await userService.get().then(() => {
+        router.push({ name: 'Dashboard' })
+      })
+      .catch(error => {
+        throw error
+      })
     })
     .catch(error => {
       console.error('Throw error')

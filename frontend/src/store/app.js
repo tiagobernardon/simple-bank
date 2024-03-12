@@ -3,15 +3,15 @@ import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
-    isAuthenticated: localStorage.getItem('auth') === 'true' ? true : false,
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {},
     drawer: false
   }),
   actions: {
     setDrawer(value) {
       this.drawer = value;
     },
-    setIsAuthenticated(value) {
-      this.isAuthenticated = value;
+    setUser(value) {
+      this.user = value;
     }
   }
 })

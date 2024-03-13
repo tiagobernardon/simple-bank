@@ -16,17 +16,17 @@ class TransactionService
 {
     public function list(Request $request) : Paginator
     {
-        // if ($request->user()->can('viewAll', Transaction::class)) {
-        //     $transactions = Transaction::get()->paginate(1);
-        // } else {
-        //     $transactions = $request->user()->transactions->paginate(1);
-        // }
+        $userId = null;
 
-        $transactions = DB::table('transactions')->simplePaginate(7);
+        if ($request->user()->cannot('viewAll', Transaction::class)) {
+            $userId = $request->user()->id;
+        }
+
+        $transactions = Transaction::ofUser($userId)->simplePaginate(7);
 
         return $transactions;
     }
-    
+
     public function create(Request $request) : Transaction
     {
         $data = $request->all();

@@ -25,4 +25,11 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeOfUser(Builder $query, int $userId = null): void
+    {
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+    }
 }

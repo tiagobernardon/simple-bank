@@ -72,6 +72,18 @@
           :loading="loading"
           :loading-text="'Loading Transactions'">
 
+          <template v-slot:item.type="{ value }">
+            <v-chip :color="formatTypeColor(value)">
+              {{ formatTypeText(value) }}
+            </v-chip>
+          </template>
+
+          <template v-slot:item.status="{ value }">
+            <v-chip :color="formatStatusColor(value)">
+              {{ formatStatusText(value) }}
+            </v-chip>
+          </template>
+
           <template v-slot:bottom>
           </template>
         </v-data-table>
@@ -108,11 +120,12 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { formatTypeText, formatTypeColor, formatStatusText, formatStatusColor } from '@/utils/formatters.js';
 import { useTransactionStore } from '@/store/transaction';
-import { useAppStore } from '@/store/app';
-
 import PurchaseDialog from '@/components/PurchaseDialog.vue';
 import DepositDialog from '@/components/DepositDialog.vue';
+
+
 
 import transactionService from '@/services/transactionService';
 

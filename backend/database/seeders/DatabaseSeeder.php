@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
             'amount' => 9.5,
             'description' => 'only for 3',
             'type' => 'DEPOSIT',
-            'status' => 'PENDING',
+            'status' => 'APPROVED',
             'user_id' => 3,
         ]);
 
@@ -79,6 +79,14 @@ class DatabaseSeeder extends Seeder
             'description' => 'only for 3',
             'type' => 'DEPOSIT',
             'status' => 'PENDING',
+            'user_id' => 3,
+        ]);
+
+        DB::table('transactions')->insert([
+            'amount' => 142.76,
+            'description' => 'THIS APPEAR ONLY FOR 2',
+            'type' => 'DEPOSIT',
+            'status' => 'REJECTED',
             'user_id' => 3,
         ]);
     }

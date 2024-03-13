@@ -33,7 +33,7 @@ import { ref } from 'vue';
 import { vMaska } from "maska";
 import { currency } from '@/utils/masks.js';
 import { required } from '@/utils/formValidation.js';
-import { PURCHASE } from '@/utils/transactionTypes.js';
+import { PURCHASE } from '@/utils/transactions/transactionTypes.js';
 import { useAppStore } from '@/store/app';
 import { useTransactionStore } from '@/store/transaction';
 

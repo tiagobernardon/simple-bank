@@ -8,18 +8,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
+use Illuminate\Pagination\Paginator;
 
 use Exception;
  
 class TransactionService
 {
-    public function list(Request $request) : Collection
+    public function list(Request $request) : Paginator
     {
-        if ($request->user()->can('viewAll', Transaction::class)) {
-            $transactions = Transaction::get();
-        } else {
-            $transactions = $request->user()->transactions;
-        }
+        // if ($request->user()->can('viewAll', Transaction::class)) {
+        //     $transactions = Transaction::get()->paginate(1);
+        // } else {
+        //     $transactions = $request->user()->transactions->paginate(1);
+        // }
+
+        $transactions = DB::table('transactions')->simplePaginate(7);
 
         return $transactions;
     }
@@ -41,8 +44,6 @@ class TransactionService
 
             if (isset($data['check'])) {
                 $check =null;
-                $checkPath = null;
-                $checkFileName = null;
 
                 $check = $data['check'];
                 $path = 'checks/';

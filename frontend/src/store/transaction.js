@@ -6,6 +6,7 @@ export const useTransactionStore = defineStore('transaction', {
     purchaseDialog: false,
     depositDialog: false,
     refreshDashboard: false,
+    currentPage: 1,
   }),
   actions: {
     setPurchaseDialog(value) {
@@ -16,6 +17,9 @@ export const useTransactionStore = defineStore('transaction', {
     },
     setRefreshDashboard(value) {
       this.refreshDashboard = value;
+    },
+    setCurrentPage(value) {
+      this.currentPage = value;
     }
   }
 })

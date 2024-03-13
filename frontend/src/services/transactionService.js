@@ -26,10 +26,17 @@ const create = async ({ description, amount, type, check }) => {
   return response?.data || [];
 };
 
-const get = async () => {
-  let response = await axios.get(`${API_URL}/transactions`);
+const get = async (page) => {
+  let { data } = await axios.get(`${API_URL}/transactions?page=${page}`);
 
-  return response?.data || [];
+  let returnData = {
+    data: data?.data || [],
+    currentPage: data?.current_page || 1,
+    nextPage: data?.next_page_url || null,
+    prevPage: data?.prev_page_url || null,
+  }
+
+  return returnData;
 };
 
 export default {

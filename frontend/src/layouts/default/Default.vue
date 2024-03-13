@@ -27,7 +27,7 @@ import NavDrawer from './NavDrawer.vue';
 import DefaultView from './View.vue';
 
 import axios from 'axios';
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, watch } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
 import { useRouter } from 'vue-router';
@@ -63,13 +63,9 @@ onBeforeMount(async () => {
   }
 });
 
-store.$subscribe((mutation) => {
-  if (mutation.events) {
-    let { key, newValue } = mutation.events;
-
-    if (key === 'user') {
-      localStorage.setItem('user', JSON.stringify(newValue));
-    }
+watch(user, (newValue) => {
+  if (newValue) {
+    localStorage.setItem('user', JSON.stringify(newValue));
   }
-})
+});
 </script>

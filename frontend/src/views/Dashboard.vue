@@ -126,7 +126,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useTransactionStore } from '@/store/transaction';
 import PurchaseDialog from '@/components/PurchaseDialog.vue';
@@ -144,7 +144,12 @@ import {
 
 const store = useTransactionStore();
 
-const { purchaseDialog, depositDialog, currentPage } = storeToRefs(store);
+const { 
+  purchaseDialog,
+  depositDialog,
+  currentPage,
+  refreshDashboard
+} = storeToRefs(store);
 
 const items = ref([]);
 const loading = ref(false);
@@ -182,14 +187,10 @@ onMounted(async () => {
   fetchTransactions(currentPage.value)
 });
 
-store.$subscribe((mutation) => {
-  if (mutation.events) {
-    let { key, newValue } = mutation.events;
-
-    if (key === 'refreshDashboard' && newValue) {
-      fetchTransactions(currentPage.value);
-      store.setRefreshDashboard(false);
-    }
+watch(refreshDashboard, (newValue) => {
+  if (newValue) {
+    fetchTransactions(currentPage.value);
+    store.setRefreshDashboard(false);
   }
-})
+});
 </script>

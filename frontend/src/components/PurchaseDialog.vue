@@ -25,11 +25,11 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { useAppStore } from '@/store/app';
+import { useTransactionStore } from '@/store/transaction';
 
 import PurchaseForm from '@/components/PurchaseForm.vue';
 
-const store = useAppStore();
+const store = useTransactionStore();
 
 const { purchaseDialog } = storeToRefs(store);
 </script>

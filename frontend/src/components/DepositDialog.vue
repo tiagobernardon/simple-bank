@@ -24,11 +24,11 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { useAppStore } from '@/store/app';
+import { useTransactionStore } from '@/store/transaction';
 
 import DepositForm from '@/components/DepositForm.vue';
 
-const store = useAppStore();
+const store = useTransactionStore();
 
 const { depositDialog } = storeToRefs(store);
 </script>

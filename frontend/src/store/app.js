@@ -10,8 +10,6 @@ export const useAppStore = defineStore('app', {
       error: false,
       message: ''
     },
-    purchaseDialog: false,
-    depositDialog: false
   }),
   actions: {
     setDrawer(value) {
@@ -22,12 +20,6 @@ export const useAppStore = defineStore('app', {
     },
     setSnackbar(value) {
       this.snackbar = value;
-    },
-    setPurchaseDialog(value) {
-      this.purchaseDialog = value;
-    },
-    setDepositDialog(value) {
-      this.depositDialog = value;
     }
   }
 })

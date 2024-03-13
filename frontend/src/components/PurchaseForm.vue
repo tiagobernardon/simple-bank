@@ -31,10 +31,12 @@
 import { ref } from 'vue';
 import { required } from '@/utils/formValidation.js';
 import { useAppStore } from '@/store/app';
+import { useTransactionStore } from '@/store/transaction';
 
 import transactionService from '@/services/transactionService';
 
-const store = useAppStore();
+const appStore = useAppStore();
+const transactionStore = useTransactionStore();
 
 const form = ref({
   description: null,
@@ -52,9 +54,10 @@ async function onPurchase() {
 
     await transactionService.create(form.value).then(res => {
       if (res.id) {
-        store.setPurchaseDialog(false);
+        transactionStore.setRefreshDashboard(true);
+        transactionStore.setPurchaseDialog(false);
 
-        store.setSnackbar({
+        appStore.setSnackbar({
           show: true,
           error: false,
           message: "Purchase completed successfully."

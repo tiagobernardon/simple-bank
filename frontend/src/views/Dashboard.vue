@@ -88,6 +88,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useTransactionStore } from '@/store/transaction';
 import { useAppStore } from '@/store/app';
 
 import PurchaseDialog from '@/components/PurchaseDialog.vue';
@@ -95,7 +96,7 @@ import DepositDialog from '@/components/DepositDialog.vue';
 
 import transactionService from '@/services/transactionService';
 
-const store = useAppStore();
+const store = useTransactionStore();
 
 const { purchaseDialog, depositDialog } = storeToRefs(store);
 
@@ -126,4 +127,13 @@ const fetchTransactions = async () => {
 onMounted(async () => {
   fetchTransactions()
 });
+
+store.$subscribe((mutation) => {
+  let { key, newValue } = mutation.events;
+
+  if (key === 'refreshDashboard' && newValue) {
+    fetchTransactions();
+    store.setRefreshDashboard(false);
+  }
+})
 </script>

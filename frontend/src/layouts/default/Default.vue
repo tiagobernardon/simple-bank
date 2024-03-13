@@ -37,20 +37,6 @@ const router = useRouter();
 
 const { user, snackbar } = storeToRefs(store);
 
-store.$subscribe((mutation) => {
-  let { key, newValue } = mutation.events;
-
-  if (key === 'user') {
-    localStorage.setItem('user', JSON.stringify(newValue));
-  }
-})
-
-onBeforeMount(async () => {
-  if (localStorage.getItem('user')) {
-    store.setUser(JSON.parse(localStorage.getItem('user')));
-  }
-});
-
 // API interceptor
 axios.interceptors.response.use(function (response) {
     return response;
@@ -70,4 +56,18 @@ axios.interceptors.response.use(function (response) {
   
     return Promise.reject(error);
 });
+
+onBeforeMount(async () => {
+  if (localStorage.getItem('user')) {
+    store.setUser(JSON.parse(localStorage.getItem('user')));
+  }
+});
+
+store.$subscribe((mutation) => {
+  let { key, newValue } = mutation.events;
+
+  if (key === 'user') {
+    localStorage.setItem('user', JSON.stringify(newValue));
+  }
+})
 </script>

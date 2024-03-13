@@ -17,8 +17,9 @@
       :rules="[required]"
       :disabled="loading"
       label="Amount"
-      type="number"
-      prepend-icon="mdi-currency-usd">
+      type="text"
+      prepend-icon="mdi-currency-usd"
+      v-maska:[currency]>
     </v-text-field>
 
     <div class="text-center">
@@ -29,7 +30,9 @@
 
 <script setup>
 import { ref } from 'vue';
+import { vMaska } from "maska";
 import { required } from '@/utils/formValidation.js';
+import { currency } from '@/utils/masks.js';
 import { useAppStore } from '@/store/app';
 import { useTransactionStore } from '@/store/transaction';
 
@@ -40,7 +43,7 @@ const transactionStore = useTransactionStore();
 
 const form = ref({
   description: null,
-  amount: null,
+  amount: 0.00,
   type: 'PURCHASE'
 });
 

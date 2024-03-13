@@ -10,11 +10,19 @@ use Illuminate\Http\File;
 use Illuminate\Pagination\Paginator;
 use App\Enums\TransactionTypeEnum;
 use App\Enums\TransactionStatusEnum;
+use App\Services\WalletService;
 
 use Exception;
  
 class TransactionService
 {
+    protected $walletService;
+
+    public function __construct(Walletservice $walletService)
+    {
+        $this->walletService = $walletService;
+    }
+
     public function list(Request $request) : Paginator
     {
         $userId = null;
@@ -37,11 +45,7 @@ class TransactionService
         try {   
             DB::beginTransaction();
 
-            $status = TransactionStatusEnum::PENDING->value;
-
-            if ($data['type'] === TransactionTypeEnum::Purchase->value) {
-                $status = TransactionStatusEnum::APPROVED->value;
-            }
+            $status = $this->setInitialStatus($data, $request);
 
             $transaction = Transaction::create([
                 'amount' => $data['amount'],
@@ -52,16 +56,11 @@ class TransactionService
             ]);
 
             if (isset($data['check'])) {
-                $check =null;
+                $this->saveCheck($data, $transaction);
+            }
 
-                $check = $data['check'];
-                $path = 'checks/';
-                $fileName = $transaction->id . "." . $check->getClientOriginalExtension();
-
-                Storage::putFileAs($path, new File($check), $fileName);
-
-                $transaction->check = $path . $fileName;
-                $transaction->save();
+            if ($transaction->type === TransactionTypeEnum::Purchase->value) {
+                $this->walletService->removeFunds($request, $transaction);
             }
 
             DB::commit();
@@ -72,5 +71,34 @@ class TransactionService
 
             throw new Exception($e->getMessage());
         }        
+    }
+
+    public function saveCheck(array $data, Transaction $transaction) : void
+    {
+        $check = null;
+
+        $check = $data['check'];
+        $path = 'checks/';
+        $fileName = $transaction->id . "." . $check->getClientOriginalExtension();
+
+        Storage::putFileAs($path, new File($check), $fileName);
+
+        $transaction->check = $path . $fileName;
+        $transaction->save();
+    }
+
+    public function setInitialStatus(array $data, Request $request) : string
+    {
+        $status = TransactionStatusEnum::PENDING->value;
+
+        if ($data['type'] === TransactionTypeEnum::Purchase->value) {
+            if ($data['amount'] > $request->user()->wallet->balance) {
+                throw new Exception('Insufficient funds.');
+            }
+
+            $status = TransactionStatusEnum::APPROVED->value;
+        }
+
+        return $status;
     }
 }

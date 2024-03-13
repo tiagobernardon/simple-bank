@@ -3,12 +3,13 @@
 namespace App\Services;
  
 use App\Models\Transaction;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 use Illuminate\Pagination\Paginator;
+use App\Enums\TransactionTypeEnum;
+use App\Enums\TransactionStatusEnum;
 
 use Exception;
  
@@ -22,7 +23,9 @@ class TransactionService
             $userId = $request->user()->id;
         }
 
-        $transactions = Transaction::ofUser($userId)->simplePaginate(7);
+        $transactions = Transaction::ofUser($userId)
+                            ->orderByDesc('created_at')
+                            ->simplePaginate(7);
 
         return $transactions;
     }
@@ -34,11 +37,17 @@ class TransactionService
         try {   
             DB::beginTransaction();
 
+            $status = TransactionStatusEnum::PENDING->value;
+
+            if ($data['type'] === TransactionTypeEnum::Purchase->value) {
+                $status = TransactionStatusEnum::APPROVED->value;
+            }
+
             $transaction = Transaction::create([
                 'amount' => $data['amount'],
                 'description' => $data['description'],
                 'type' => $data['type'],
-                'status' => 'PENDING',
+                'status' => $status,
                 'user_id' => $request->user()->id
             ]);
 

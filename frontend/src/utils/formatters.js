@@ -66,3 +66,11 @@ export const formatStatusColor = value => {
 
   return color;
 };
+
+export const formatCurrency = value => {
+  return parseFloat(value).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+};
+
+export const formatDate = value => {
+  return new Date(value).toLocaleString('en-US');
+};

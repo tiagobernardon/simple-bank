@@ -84,6 +84,14 @@
             </v-chip>
           </template>
 
+          <template v-slot:item.amount="{ value }">
+              {{ formatCurrency(value) }}
+          </template>
+
+          <template v-slot:item.created_at="{ value }">
+              {{ formatDate(value) }}
+          </template>
+
           <template v-slot:bottom>
           </template>
         </v-data-table>
@@ -120,14 +128,19 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { formatTypeText, formatTypeColor, formatStatusText, formatStatusColor } from '@/utils/formatters.js';
 import { useTransactionStore } from '@/store/transaction';
 import PurchaseDialog from '@/components/PurchaseDialog.vue';
 import DepositDialog from '@/components/DepositDialog.vue';
-
-
-
 import transactionService from '@/services/transactionService';
+
+import { 
+  formatTypeText, 
+  formatTypeColor, 
+  formatStatusText, 
+  formatStatusColor, 
+  formatCurrency,
+  formatDate
+} from '@/utils/formatters.js';
 
 const store = useTransactionStore();
 
@@ -140,10 +153,11 @@ const hasNextPage = ref(false);
 const hasPreviousPage = ref(false);
 
 const headers = [
-  { title: 'Description', key: 'description' },
-  { title: 'Amount', key: 'amount' },
-  { title: 'Type', key: 'type' },
-  { title: 'Status', key: 'status' },
+  { title: 'Description', key: 'description', sortable: false },
+  { title: 'Amount', key: 'amount', sortable: false },
+  { title: 'Type', key: 'type', sortable: false },
+  { title: 'Status', key: 'status', sortable: false },
+  { title: 'Date', key: 'created_at', sortable: false },
 ];
 
 const fetchTransactions = async (page) => {

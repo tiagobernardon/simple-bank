@@ -6,19 +6,22 @@ axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
 const create = async ({ description, amount, type, check }) => {
-
   // format currency
   let formattedAmount 
   formattedAmount = amount.replace(/\$|,/g, '');
   formattedAmount = parseFloat(formattedAmount);
   formattedAmount = formattedAmount.toFixed(2);
 
-  let response = await axios.post(`${API_URL}/transactions`, {
-    description: description,
-    amount: formattedAmount,
-    type: type,
-    check: check ? check : null
-  });
+  const data = new FormData();
+  data.append('description', description);
+  data.append('amount', formattedAmount);
+  data.append('type', type);
+
+  if (check) {
+    data.append('check', check);
+  }
+
+  let response = await axios.post(`${API_URL}/transactions`, data);
 
   return response?.data || [];
 };

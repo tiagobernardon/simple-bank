@@ -23,9 +23,10 @@
     </v-text-field>
 
     <v-file-input
-      v-model="form.check"
       class="pb-2"
       variant="outlined"
+      :disabled="loading"
+      @change="changeFile"
       label="Check picture"
       accept="image/png, image/jpeg, image/bmp"
       prepend-icon="mdi-camera-outline">
@@ -62,6 +63,10 @@ const isFormValid = ref(false);
 
 const loading = ref(false);
 
+async function changeFile(event) {
+  form.value.check = event.target.files[0];
+}
+
 async function onDeposit() {
   if (isFormValid.value) {
     loading.value = true;
@@ -74,7 +79,7 @@ async function onDeposit() {
         appStore.setSnackbar({
           show: true,
           error: false,
-          message: "Deposit completed, wait for check approval!"
+          message: "Deposit completed. The amount will be added to your balance after approval."
         });
       }
     })

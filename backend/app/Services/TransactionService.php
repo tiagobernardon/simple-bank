@@ -6,6 +6,8 @@ use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 use Exception;
  
@@ -28,7 +30,7 @@ class TransactionService
 
         try {   
             DB::beginTransaction();
-         
+
             $transaction = Transaction::create([
                 'amount' => $data['amount'],
                 'description' => $data['description'],
@@ -36,6 +38,21 @@ class TransactionService
                 'status' => 'PENDING',
                 'user_id' => $request->user()->id
             ]);
+
+            if (isset($data['check'])) {
+                $check =null;
+                $checkPath = null;
+                $checkFileName = null;
+
+                $check = $data['check'];
+                $path = 'checks/';
+                $fileName = $transaction->id . "." . $check->getClientOriginalExtension();
+
+                Storage::putFileAs($path, new File($check), $fileName);
+
+                $transaction->check = $path . $fileName;
+                $transaction->save();
+            }
 
             DB::commit();
 

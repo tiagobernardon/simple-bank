@@ -12,8 +12,14 @@
           <v-card-title>Current balance</v-card-title>
                     
           <v-card-text>
+            <v-progress-linear
+                :active="loadingBalance"
+                height="4"
+                indeterminate
+            ></v-progress-linear>
+
             <div class="text-h4">
-              $300,00
+              {{ loadingBalance ? '' : formatCurrency(balance) }}
             </div>
           </v-card-text>            
         </v-card>
@@ -25,13 +31,13 @@
 
           <v-card-text class="d-flex justify-space-between align-center">
             <div class="text-h4">
-              $500.000,00
+              Deposit a Check
             </div>
 
 
             <v-tooltip text="Deposit a Check">
               <template v-slot:activator="{ props }">
-                <v-btn @click="store.setDepositDialog(true)" density="compact" icon="mdi-plus" color="primary" v-bind="props"></v-btn>
+                <v-btn @click="transactionStore.setDepositDialog(true)" density="compact" icon="mdi-plus" color="primary" v-bind="props"></v-btn>
               </template>
             </v-tooltip>
 
@@ -45,12 +51,12 @@
 
           <v-card-text class="d-flex justify-space-between align-center">
             <div class="text-h4">
-              $5,00
+              Purchase
             </div>
 
             <v-tooltip text="Purchase">
               <template v-slot:activator="{ props }">
-                <v-btn @click="store.setPurchaseDialog(true)" density="compact" icon="mdi-plus" color="primary" v-bind="props"></v-btn>
+                <v-btn @click="transactionStore.setPurchaseDialog(true)" density="compact" icon="mdi-plus" color="primary" v-bind="props"></v-btn>
               </template>
             </v-tooltip>
           </v-card-text>
@@ -69,27 +75,36 @@
         <v-data-table
           :headers="headers"
           :items="items"
-          :loading="loading"
+          :loading="loadingTransactions"
           :loading-text="'Loading Transactions'">
 
-          <template v-slot:item.type="{ value }">
-            <v-chip :color="formatTypeColor(value)">
-              {{ formatTypeText(value) }}
-            </v-chip>
-          </template>
+          <template v-slot:item="{ item }">
+            <tr>
 
-          <template v-slot:item.status="{ value }">
-            <v-chip :color="formatStatusColor(value)">
-              {{ formatStatusText(value) }}
-            </v-chip>
-          </template>
+              <td>
+                {{ item.description }}
+              </td>
 
-          <template v-slot:item.amount="{ value }">
-              {{ formatCurrency(value) }}
-          </template>
+              <td>
+                <v-chip :color="formatTypeColor(item.type)">
+                  {{ formatCurrency(item.amount) }}
+                </v-chip>
+              </td>
 
-          <template v-slot:item.created_at="{ value }">
-              {{ formatDate(value) }}
+              <td>
+                  {{ formatTypeText(item.type) }}
+              </td>
+
+              <td>
+                <v-chip :color="formatStatusColor(item.status)">
+                  {{ formatStatusText(item.status) }}
+                </v-chip>
+              </td>
+
+              <td>
+                {{ formatDate(item.created_at) }}
+              </td>
+            </tr>
           </template>
 
           <template v-slot:bottom>
@@ -129,9 +144,11 @@
 import { onMounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useTransactionStore } from '@/store/transaction';
+import { useWalletStore } from '@/store/wallet';
 import PurchaseDialog from '@/components/PurchaseDialog.vue';
 import DepositDialog from '@/components/DepositDialog.vue';
 import transactionService from '@/services/transactionService';
+import walletService from '@/services/walletService';
 
 import { 
   formatTypeText, 
@@ -142,17 +159,21 @@ import {
   formatDate
 } from '@/utils/formatters.js';
 
-const store = useTransactionStore();
+const transactionStore = useTransactionStore();
+const walletStore = useWalletStore();
 
 const { 
   purchaseDialog,
   depositDialog,
   currentPage,
   refreshDashboard
-} = storeToRefs(store);
+} = storeToRefs(transactionStore);
+
+const { balance } = storeToRefs(walletStore);
 
 const items = ref([]);
-const loading = ref(false);
+const loadingTransactions = ref(false);
+const loadingBalance = ref(false);
 
 const hasNextPage = ref(false);
 const hasPreviousPage = ref(false);
@@ -166,12 +187,12 @@ const headers = [
 ];
 
 const fetchTransactions = async (page) => {
-  loading.value = true;
+  loadingTransactions.value = true;
 
   await transactionService.get(page).then(res => {
     items.value = res.data;
 
-    store.setCurrentPage(res.currentPage);
+    transactionStore.setCurrentPage(res.currentPage);
     res.nextPage ? (hasNextPage.value = true) : (hasNextPage.value = false);
     res.prevPage ? (hasPreviousPage.value = true) : (hasPreviousPage.value = false);
   })
@@ -179,18 +200,33 @@ const fetchTransactions = async (page) => {
     console.error('error');
   })
   .finally(() => {
-    loading.value = false;
+    loadingTransactions.value = false;
+  });
+};
+
+const fetchBalance = async () => {
+  loadingBalance.value = true;
+
+  await walletService.getBalance().then(res => {
+    balance.value = res;
+  })
+  .catch(() => {
+    console.error('error');
+  })
+  .finally(() => {
+    loadingBalance.value = false;
   });
 };
 
 onMounted(async () => {
   fetchTransactions(currentPage.value)
+  fetchBalance()
 });
 
 watch(refreshDashboard, (newValue) => {
   if (newValue) {
     fetchTransactions(currentPage.value);
-    store.setRefreshDashboard(false);
+    transactionStore.setRefreshDashboard(false);
   }
 });
 </script>

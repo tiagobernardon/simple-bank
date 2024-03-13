@@ -21,7 +21,7 @@ export const formatTypeColor = value => {
 
   switch (value) {
     case PURCHASE:
-        color = 'primary';
+        color = 'error';
         break;
     case DEPOSIT:
         color = 'success';

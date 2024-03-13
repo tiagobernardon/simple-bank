@@ -5,7 +5,7 @@ const API_URL = import.meta.env.VITE_BACKEND_URL + '/api';
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
-const create = async ({ description, amount, type }) => {
+const create = async ({ description, amount, type, check }) => {
 
   // format currency
   let formattedAmount 
@@ -16,7 +16,8 @@ const create = async ({ description, amount, type }) => {
   let response = await axios.post(`${API_URL}/transactions`, {
     description: description,
     amount: formattedAmount,
-    type: type
+    type: type,
+    check: check ? check : null
   });
 
   return response?.data || [];

@@ -31,8 +31,9 @@
 <script setup>
 import { ref } from 'vue';
 import { vMaska } from "maska";
-import { required } from '@/utils/formValidation.js';
 import { currency } from '@/utils/masks.js';
+import { required } from '@/utils/formValidation.js';
+import { PURCHASE } from '@/utils/transactionTypes.js';
 import { useAppStore } from '@/store/app';
 import { useTransactionStore } from '@/store/transaction';
 
@@ -44,7 +45,7 @@ const transactionStore = useTransactionStore();
 const form = ref({
   description: null,
   amount: 0.00,
-  type: 'PURCHASE'
+  type: PURCHASE
 });
 
 const isFormValid = ref(false);

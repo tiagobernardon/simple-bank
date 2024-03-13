@@ -6,62 +6,43 @@ use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Services\TransactionService;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $service;
+
+    public function __construct(TransactionService $transactionService)
+    {
+        $this->service = $transactionService;
+    }
+
     public function index(Request $request)
     {
-        if ($request->user()->cannot('viewAll', Transaction::class)) {
-            $transactions = $request->user()->transactions;
-        } else {
-            $transactions = Transaction::all();
-        }
+        $transactions = $this->service->list($request);
 
         return response()->json($transactions, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreTransactionRequest $request)
     {
-        if ($request->user()->cannot('store', Transaction::class)) {
-            return response()->json(['error' => 'Not authorized.'], 403);
+        if ($request->user()->can('store', Transaction::class)) {
+            $transaction = $this->service->create($request);
+
+            return response()->json($transaction, 200);
         }
+
+        return response()->json()->setStatusCode(403);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Transaction $transaction)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Transaction $transaction)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateTransactionRequest $request, Transaction $transaction)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Transaction $transaction)
-    {
-        //
-    }
 }

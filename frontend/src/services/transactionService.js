@@ -6,11 +6,12 @@ axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
 const create = async ({ description, amount, type }) => {
-  await axios.post(`${API_URL}/transactions`, {
+  let response = await axios.post(`${API_URL}/transactions`, {
     description: description,
     amount: amount,
     type: type
-  })
+  });
+
   return response?.data || [];
 };
 

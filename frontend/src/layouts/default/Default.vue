@@ -8,7 +8,7 @@
 
       <template v-slot:actions>
         <v-btn
-          color="pink"
+          :color="snackbar.error ? 'red' : 'green'"
           variant="text"
           @click="snackbar.show = false"
         >
@@ -64,6 +64,7 @@ axios.interceptors.response.use(function (response) {
 
     store.setSnackbar({
       show: true,
+      error: true,
       message: error?.response?.data?.message || "Error"
     });
   

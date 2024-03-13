@@ -7,6 +7,7 @@ export const useAppStore = defineStore('app', {
     drawer: false,
     snackbar: {
       show: false,
+      error: false,
       message: ''
     },
     purchaseDialog: false,

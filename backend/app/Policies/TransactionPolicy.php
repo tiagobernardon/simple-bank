@@ -14,7 +14,7 @@ class TransactionPolicy
      */
     public function viewAll(User $user): bool
     {
-        return $user->type === UserTypeEnum::Admin; 
+        return $user->type === UserTypeEnum::Admin->value;
     }
 
     /**
@@ -22,7 +22,7 @@ class TransactionPolicy
      */
     public function store(User $user): bool
     {
-        return $user->type === UserTypeEnum::Default;
+        return $user->type === UserTypeEnum::Default->value;
     }
 
     /**
@@ -30,6 +30,6 @@ class TransactionPolicy
      */
     public function update(User $user): bool
     {
-        return $user->type === UserTypeEnum::Admin;
+        return $user->type === UserTypeEnum::Admin->value;
     }
 }

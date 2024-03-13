@@ -28,7 +28,7 @@ class StoreTransactionRequest extends FormRequest
             'description' => ['required', 'string'],
             'amount' => ['required', 'decimal:2', 'min:0.01'],
             'type' => ['required', 'string'],
-            'check' => ['exclude_if:type,'.$type, 'required']
+            'check' => ['exclude_if:type,'.$type, 'required', 'max:10240']
         ];
     }
 }

@@ -183,11 +183,13 @@ onMounted(async () => {
 });
 
 store.$subscribe((mutation) => {
-  let { key, newValue } = mutation.events;
+  if (mutation.events) {
+    let { key, newValue } = mutation.events;
 
-  if (key === 'refreshDashboard' && newValue) {
-    fetchTransactions(currentPage.value);
-    store.setRefreshDashboard(false);
+    if (key === 'refreshDashboard' && newValue) {
+      fetchTransactions(currentPage.value);
+      store.setRefreshDashboard(false);
+    }
   }
 })
 </script>

@@ -64,10 +64,12 @@ onBeforeMount(async () => {
 });
 
 store.$subscribe((mutation) => {
-  let { key, newValue } = mutation.events;
+  if (mutation.events) {
+    let { key, newValue } = mutation.events;
 
-  if (key === 'user') {
-    localStorage.setItem('user', JSON.stringify(newValue));
+    if (key === 'user') {
+      localStorage.setItem('user', JSON.stringify(newValue));
+    }
   }
 })
 </script>

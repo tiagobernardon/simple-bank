@@ -32,4 +32,18 @@ class Transaction extends Model
             $query->where('user_id', $userId);
         }
     }
+
+    public function scopeOfType(Builder $query, string $type = null): void
+    {
+        if ($type) {
+            $query->where('type', $type);
+        }
+    }
+
+    public function scopeOfStatus(Builder $query, string $status = null): void
+    {
+        if ($status) {
+            $query->where('status', $status);
+        }
+    }
 }

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import queryStringBuilder from '@/utils/queryStringBuilder';
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + '/api';
 
@@ -26,8 +27,14 @@ const create = async ({ description, amount, type, check }) => {
   return response?.data || [];
 };
 
-const get = async (page) => {
-  let { data } = await axios.get(`${API_URL}/transactions?page=${page}`);
+const get = async (page, filters = null) => {
+  let queryString = ''
+
+  if (filters) {
+    queryString += await queryStringBuilder.buildQueryString(filters)
+  }
+
+  let { data } = await axios.get(`${API_URL}/transactions?page=${page}${queryString}`);
 
   let returnData = {
     data: data?.data || [],

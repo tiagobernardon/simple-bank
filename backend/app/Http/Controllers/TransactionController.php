@@ -45,7 +45,11 @@ class TransactionController extends Controller
 
     public function update(UpdateTransactionRequest $request, $id)
     {
-        $updated = $this->service->update($request, $id);
-        return response()->json($updated, 200);
+        if ($request->user()->can('update', Transaction::class)) {
+            $updated = $this->service->update($request, $id);
+            return response()->json($updated, 200);
+        }
+
+        return response()->json()->setStatusCode(403);
     }
 }

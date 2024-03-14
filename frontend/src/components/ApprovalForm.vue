@@ -14,7 +14,7 @@
     <v-row>
       <v-col>
         <v-btn 
-          :loading="loading" 
+          :loading="loadingUpdate" 
           :disabled="!currentCheck" 
           @click="updateTransaction(APPROVED)" 
           class="mx-2"
@@ -23,7 +23,7 @@
         </v-btn>
 
         <v-btn 
-          :loading="loading" 
+          :loading="loadingUpdate" 
           :disabled="!currentCheck" 
           @click="updateTransaction(REJECTED)" 
           class="mx-2" 
@@ -38,27 +38,35 @@
 <script setup>
 import { ref } from 'vue';
 import { useAdminStore } from '@/store/admin';
+import { useAppStore } from '@/store/app';
 import { storeToRefs } from 'pinia';
 import { APPROVED, REJECTED } from '@/utils/transactions/transactionStatuses.js';
 import transactionService from '@/services/transactionService';
 
-const store = useAdminStore();
+const adminStore = useAdminStore();
+const appStore = useAppStore();
 
-const { currentCheck, selectedTransaction } = storeToRefs(store);
-
-const loading = ref(false);
+const { currentCheck, selectedTransaction, loadingUpdate } = storeToRefs(adminStore);
 
 async function updateTransaction(status) {
-  loading.value = true;
+  adminStore.setLoadingUpdate(true);
 
   await transactionService.update(selectedTransaction.value, status).then(res => {
-    console.log('do something')
+    adminStore.setRefreshAdmin(true);
+
+    appStore.setSnackbar({
+      show: true,
+      error: false,
+      message: "Operation completed successfully."
+    });
+
+    adminStore.prepareApprovalDialog(false, null)
   })
   .catch(() => {
     console.error('error');
   })
   .finally(() => {
-    loading.value = false;
+    adminStore.setLoadingUpdate(false);
   });
 }
 

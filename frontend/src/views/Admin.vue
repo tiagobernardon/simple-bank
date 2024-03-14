@@ -8,7 +8,7 @@
 
     <v-row>
       <v-col class="text-center">
-        <h2 class="headline mb-2">Transactions</h2>
+        <h2 class="headline mb-2">Pending Transactions</h2>
       </v-col>
     </v-row>
 
@@ -87,8 +87,10 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
+import { DEPOSIT } from '@/utils/transactions/transactionTypes.js';
+import { PENDING } from '@/utils/transactions/transactionStatuses.js';
 import { useTransactionStore } from '@/store/transaction';
 import { useAdminStore } from '@/store/admin';
 import ApprovalDialog from '@/components/ApprovalDialog.vue';
@@ -107,7 +109,7 @@ const transactionStore = useTransactionStore();
 const adminStore = useAdminStore();
 
 const { currentPage } = storeToRefs(transactionStore);
-const { approvalDialog } = storeToRefs(adminStore);
+const { approvalDialog, refreshAdmin } = storeToRefs(adminStore);
 
 const items = ref([]);
 const loadingTransactions = ref(false);
@@ -124,10 +126,15 @@ const headers = [
   { title: 'Actions', key: 'actions', sortable: false },
 ];
 
+const filters = {
+  status: PENDING,
+  type: DEPOSIT
+};
+
 const fetchTransactions = async (page) => {
   loadingTransactions.value = true;
 
-  await transactionService.get(page).then(res => {
+  await transactionService.get(page, filters).then(res => {
     items.value = res.data;
 
     transactionStore.setCurrentPage(res.currentPage);
@@ -144,5 +151,12 @@ const fetchTransactions = async (page) => {
 
 onMounted(async () => {
   fetchTransactions(currentPage.value)
+});
+
+watch(refreshAdmin, (newValue) => {
+  if (newValue) {
+    fetchTransactions(currentPage.value)
+    adminStore.setRefreshAdmin(false);
+  }
 });
 </script>

@@ -26,12 +26,16 @@ class TransactionService
     public function list(Request $request) : Paginator
     {
         $userId = null;
+        $type = $request->input('type') ?? null;
+        $status = $request->input('status') ?? null;
 
         if ($request->user()->cannot('viewAll', Transaction::class)) {
             $userId = $request->user()->id;
         }
 
         $transactions = Transaction::ofUser($userId)
+                            ->ofType($type)
+                            ->ofStatus($status)
                             ->orderByDesc('created_at')
                             ->simplePaginate(7);
 
@@ -93,7 +97,7 @@ class TransactionService
     {
         try {
             $data = $request->only(['status']);
-
+           
             DB::beginTransaction();
 
             $transaction = Transaction::find($id);
@@ -105,10 +109,10 @@ class TransactionService
             if ($transaction->status === TransactionStatusEnum::APPROVED->value) {
                 $this->walletService->addFunds($transaction);
             }
+         
+            DB::commit();
 
             return $transaction->id;
-
-            DB::commit();
         } catch (Exception $e) {
             DB::rollback();
 

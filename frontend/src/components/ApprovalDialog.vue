@@ -16,6 +16,7 @@
 
         <v-btn
           text="Cancel"
+          :disabled=loadingUpdate
           @click="store.prepareApprovalDialog(false, null)"
         ></v-btn>
       </v-card-actions>
@@ -35,7 +36,7 @@ const store = useAdminStore();
 
 const loadingCheck = ref(false);
 
-const { approvalDialog, selectedTransaction, currentCheck } = storeToRefs(store);
+const { approvalDialog, selectedTransaction, loadingUpdate } = storeToRefs(store);
 
 const fetchCheck = async () => {
   loadingCheck.value = true;
@@ -44,8 +45,8 @@ const fetchCheck = async () => {
     const file = URL.createObjectURL(res.data);
     store.setCurrentCheck(file)
   })
-  .catch((err) => {
-    console.error(err);
+  .catch(() => {
+    console.error('error');
   })
   .finally(() => {
     loadingCheck.value = false;

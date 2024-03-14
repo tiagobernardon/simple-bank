@@ -3,6 +3,7 @@
     <v-row>
       <v-col class="text-left">
         <h2 class="headline mb-2">Dashboard</h2>
+        <h2 v-if="user" class="headline mb-2">User {{user.username ? user.username : ''}}</h2>
       </v-col>
     </v-row>
 
@@ -142,6 +143,7 @@ import { onMounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useTransactionStore } from '@/store/transaction';
 import { useWalletStore } from '@/store/wallet';
+import { useAppStore } from '@/store/app';
 import PurchaseDialog from '@/components/PurchaseDialog.vue';
 import DepositDialog from '@/components/DepositDialog.vue';
 import transactionService from '@/services/transactionService';
@@ -158,6 +160,7 @@ import {
 
 const transactionStore = useTransactionStore();
 const walletStore = useWalletStore();
+const appStore = useAppStore();
 
 const { 
   purchaseDialog,
@@ -167,6 +170,8 @@ const {
 } = storeToRefs(transactionStore);
 
 const { balance } = storeToRefs(walletStore);
+
+const { user } = storeToRefs(appStore);
 
 const items = ref([]);
 const loadingTransactions = ref(false);

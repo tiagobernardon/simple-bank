@@ -60,7 +60,7 @@ wsl
 
 10. **Copy the environment variables:**
 ```
-cp .env.example .env
+cp .env.localexample .env
 ```
 
 11. **Now let's run the backend with Laravel Sail:**

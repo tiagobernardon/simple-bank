@@ -35,9 +35,9 @@ class TransactionController extends Controller
         return response()->json()->setStatusCode(403);
     }
 
-    public function show(Transaction $transaction)
+    public function getCheck()
     {
-        //
+        return response()->json('test', 200);
     }
 
     public function update(UpdateTransactionRequest $request, Transaction $transaction)

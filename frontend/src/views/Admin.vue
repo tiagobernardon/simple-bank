@@ -47,7 +47,10 @@
               </td>
 
               <td>
-                <v-icon class="me-2 pl-6">
+                <v-icon 
+                  class="me-2 pl-6"
+                  @click="adminStore.setApprovalDialog(true)"
+                >
                   mdi-eye
                 </v-icon>
               </td>
@@ -60,6 +63,8 @@
         </v-data-table>
       </v-col>
     </v-row>
+
+    <approval-dialog></approval-dialog>
   </v-container>
 </template>
 
@@ -67,6 +72,8 @@
 import { onMounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useTransactionStore } from '@/store/transaction';
+import { useAdminStore } from '@/store/admin';
+import ApprovalDialog from '@/components/ApprovalDialog.vue';
 import transactionService from '@/services/transactionService';
 
 import { 
@@ -78,11 +85,11 @@ import {
   formatDate
 } from '@/utils/formatters.js';
 
-const store = useTransactionStore();
+const transactionStore = useTransactionStore();
+const adminStore = useAdminStore();
 
-const {
-  currentPage,
-} = storeToRefs(store);
+const { currentPage } = storeToRefs(transactionStore);
+const { approvalDialog } = storeToRefs(adminStore);
 
 const items = ref([]);
 const loadingTransactions = ref(false);
@@ -102,9 +109,7 @@ const fetchTransactions = async (page) => {
   await transactionService.get(page).then(res => {
     items.value = res.data;
 
-    store.setCurrentPage(res.currentPage);
-    res.nextPage ? (hasNextPage.value = true) : (hasNextPage.value = false);
-    res.prevPage ? (hasPreviousPage.value = true) : (hasPreviousPage.value = false);
+    transactionStore.setCurrentPage(res.currentPage);
   })
   .catch(() => {
     console.error('error');

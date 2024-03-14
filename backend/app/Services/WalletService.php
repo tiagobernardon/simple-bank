@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Wallet;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
  
@@ -12,10 +13,11 @@ class WalletService
         return $request->user()->wallet->balance;
     }
 
-    public function addFunds(Request $request, Transaction $transaction) : void
-    {        
-        $request->user()->wallet->balance += $transaction->amount;
-        $request->user()->wallet->save();
+    public function addFunds(Transaction $transaction) : void
+    {     
+        $wallet = $transaction->user->wallet;
+        $wallet->balance += $transaction->amount;
+        $wallet->save();
     }
 
     public function removeFunds(Request $request, Transaction $transaction) : void

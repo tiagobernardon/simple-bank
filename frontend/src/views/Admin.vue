@@ -64,12 +64,30 @@
       </v-col>
     </v-row>
 
+    <v-row>
+      <v-col>
+        <div class="text-center">
+          <v-tooltip text="Previous Page">
+            <template v-slot:activator="{ props }">
+              <v-btn @click="fetchTransactions(currentPage - 1)" :disabled="!hasPreviousPage" variant="text" icon="mdi-arrow-left-bold"  v-bind="props"></v-btn>
+            </template>
+          </v-tooltip>
+
+          <v-tooltip text="Next Page">
+            <template v-slot:activator="{ props }">
+              <v-btn @click="fetchTransactions(currentPage + 1)" :disabled="!hasNextPage" variant="text" icon="mdi-arrow-right-bold"  v-bind="props"></v-btn>
+            </template>
+          </v-tooltip>
+        </div>
+      </v-col>
+    </v-row>
+
     <approval-dialog></approval-dialog>
   </v-container>
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useTransactionStore } from '@/store/transaction';
 import { useAdminStore } from '@/store/admin';
@@ -94,6 +112,9 @@ const { approvalDialog } = storeToRefs(adminStore);
 const items = ref([]);
 const loadingTransactions = ref(false);
 
+const hasNextPage = ref(false);
+const hasPreviousPage = ref(false);
+
 const headers = [
   { title: 'Description', key: 'description', sortable: false },
   { title: 'Amount', key: 'amount', sortable: false },
@@ -110,6 +131,8 @@ const fetchTransactions = async (page) => {
     items.value = res.data;
 
     transactionStore.setCurrentPage(res.currentPage);
+    res.nextPage ? (hasNextPage.value = true) : (hasNextPage.value = false);
+    res.prevPage ? (hasPreviousPage.value = true) : (hasPreviousPage.value = false);
   })
   .catch(() => {
     console.error('error');

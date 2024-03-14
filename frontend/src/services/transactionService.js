@@ -39,6 +39,12 @@ const get = async (page) => {
   return returnData;
 };
 
+const update = async (id, status ) => {
+  let response = await axios.patch(`${API_URL}/transactions/${id}`, {status: status});
+
+  return response?.data || [];
+};
+
 const getCheck = async (id) => {
   let res = await axios.get(`${API_URL}/transactions/check?transactionId=${id}`, {responseType: 'blob'});
 
@@ -48,5 +54,6 @@ const getCheck = async (id) => {
 export default {
   create,
   get,
+  update,
   getCheck
 };

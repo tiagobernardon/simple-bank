@@ -127,9 +127,7 @@
             </template>
           </v-tooltip>
         </div>
-
       </v-col>
-
     </v-row>
 
     <purchase-dialog></purchase-dialog>

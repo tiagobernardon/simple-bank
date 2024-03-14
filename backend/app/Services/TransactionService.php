@@ -89,6 +89,33 @@ class TransactionService
         }
     }
 
+    public function update(Request $request, $id) : string
+    {
+        try {
+            $data = $request->only(['status']);
+
+            DB::beginTransaction();
+
+            $transaction = Transaction::find($id);
+
+            $transaction->status = $data['status'];
+
+            $transaction->save();
+
+            if ($transaction->status === TransactionStatusEnum::APPROVED->value) {
+                $this->walletService->addFunds($transaction);
+            }
+
+            return $transaction->id;
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+
+            throw new Exception($e->getMessage());
+        }
+    }
+
     public function saveCheck(array $data, Transaction $transaction) : void
     {
         $check = null;

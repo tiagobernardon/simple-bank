@@ -21,7 +21,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::resource('transactions', TransactionController::class)->only(['store', 'index']);
+    Route::resource('transactions', TransactionController::class)->only(['store', 'index', 'update', 'edit']);
     Route::get('transactions/check', [TransactionController::class, 'getCheck']);
     Route::get('/balance', [WalletController::class, 'getBalance']);
 });

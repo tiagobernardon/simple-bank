@@ -43,9 +43,9 @@ class TransactionController extends Controller
         return response()->file($file);
     }
 
-    public function update(UpdateTransactionRequest $request, Transaction $transaction)
+    public function update(UpdateTransactionRequest $request, $id)
     {
-        //
+        $updated = $this->service->update($request, $id);
+        return response()->json($updated, 200);
     }
-
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\TransactionStatusEnum;
 
 class UpdateTransactionRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateTransactionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,13 @@ class UpdateTransactionRequest extends FormRequest
      */
     public function rules(): array
     {
+        $approved = TransactionStatusEnum::APPROVED->value;
+        $rejected = TransactionStatusEnum::REJECTED->value;
+
+        $statusRule = 'in:' . $approved . ',' . $rejected;
+
         return [
-            //
+            'status' => ['required', 'string', $statusRule],
         ];
     }
 }

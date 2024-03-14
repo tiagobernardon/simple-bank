@@ -40,9 +40,9 @@ class TransactionService
 
     public function create(Request $request) : Transaction
     {
-        $data = $request->all();
-
         try {   
+            $data = $request->all();
+
             DB::beginTransaction();
 
             $status = $this->setInitialStatus($data, $request);
@@ -71,6 +71,22 @@ class TransactionService
 
             throw new Exception($e->getMessage());
         }        
+    }
+
+    public function getCheckPath(Request $request) : string
+    {
+        try {
+            $path = '';
+            $transaction = Transaction::find($request->transactionId);
+
+            if ($transaction) {
+                $path = $transaction->check;
+            }
+
+            return $path;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     public function saveCheck(array $data, Transaction $transaction) : void

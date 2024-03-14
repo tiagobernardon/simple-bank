@@ -38,9 +38,9 @@ class TransactionController extends Controller
 
     public function getCheck(Request $request)
     {
-        $fullpath = 'checks/' . $request->transactionId . '.png';
-        $path = Storage::path($fullpath);
-        return response()->file($path);
+        $path = $this->service->getCheckPath($request);
+        $file = Storage::path($path);
+        return response()->file($file);
     }
 
     public function update(UpdateTransactionRequest $request, Transaction $transaction)

@@ -36,7 +36,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useAdminStore } from '@/store/admin';
 import { useAppStore } from '@/store/app';
 import { storeToRefs } from 'pinia';

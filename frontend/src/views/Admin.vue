@@ -49,7 +49,7 @@
               <td>
                 <v-icon 
                   class="me-2 pl-6"
-                  @click="adminStore.setApprovalDialog(true)"
+                  @click="adminStore.prepareApprovalDialog(true, item.id)"
                 >
                   mdi-eye
                 </v-icon>

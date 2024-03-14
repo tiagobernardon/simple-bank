@@ -42,52 +42,52 @@ class DatabaseSeeder extends Seeder
             'type' => 'ADMIN'
         ]);
 
-        DB::table('transactions')->insert([
-            'amount' => 10.5,
-            'description' => 'FIRST TRANSACTION',
-            'type' => 'DEPOSIT',
-            'status' => 'APPROVED',
-            'user_id' => 1,
-        ]);
+        // DB::table('transactions')->insert([
+        //     'amount' => 10.5,
+        //     'description' => 'FIRST TRANSACTION',
+        //     'type' => 'DEPOSIT',
+        //     'status' => 'APPROVED',
+        //     'user_id' => 1,
+        // ]);
 
-        DB::table('transactions')->insert([
-            'amount' => 500.54,
-            'description' => 'SECOND TRANSACTION',
-            'type' => 'PURCHASE',
-            'status' => 'REJECTED',
-            'user_id' => 1,
-        ]);
+        // DB::table('transactions')->insert([
+        //     'amount' => 500.54,
+        //     'description' => 'SECOND TRANSACTION',
+        //     'type' => 'PURCHASE',
+        //     'status' => 'REJECTED',
+        //     'user_id' => 1,
+        // ]);
 
-        DB::table('transactions')->insert([
-            'amount' => 142.76,
-            'description' => 'THIS APPEAR ONLY FOR 2',
-            'type' => 'DEPOSIT',
-            'status' => 'PENDING',
-            'user_id' => 2,
-        ]);
+        // DB::table('transactions')->insert([
+        //     'amount' => 142.76,
+        //     'description' => 'THIS APPEAR ONLY FOR 2',
+        //     'type' => 'DEPOSIT',
+        //     'status' => 'PENDING',
+        //     'user_id' => 2,
+        // ]);
 
-        DB::table('transactions')->insert([
-            'amount' => 9.5,
-            'description' => 'only for 3',
-            'type' => 'DEPOSIT',
-            'status' => 'APPROVED',
-            'user_id' => 3,
-        ]);
+        // DB::table('transactions')->insert([
+        //     'amount' => 9.5,
+        //     'description' => 'only for 3',
+        //     'type' => 'DEPOSIT',
+        //     'status' => 'APPROVED',
+        //     'user_id' => 3,
+        // ]);
 
-        DB::table('transactions')->insert([
-            'amount' => 56.00,
-            'description' => 'user_id3 3',
-            'type' => 'DEPOSIT',
-            'status' => 'PENDING',
-            'user_id' => 3,
-        ]);
+        // DB::table('transactions')->insert([
+        //     'amount' => 56.00,
+        //     'description' => 'user_id3 3',
+        //     'type' => 'DEPOSIT',
+        //     'status' => 'PENDING',
+        //     'user_id' => 3,
+        // ]);
 
-        DB::table('transactions')->insert([
-            'amount' => 142.76,
-            'description' => 'user_id3',
-            'type' => 'DEPOSIT',
-            'status' => 'REJECTED',
-            'user_id' => 3,
-        ]);
+        // DB::table('transactions')->insert([
+        //     'amount' => 142.76,
+        //     'description' => 'user_id3',
+        //     'type' => 'DEPOSIT',
+        //     'status' => 'REJECTED',
+        //     'user_id' => 3,
+        // ]);
     }
 }

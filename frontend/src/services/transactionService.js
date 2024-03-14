@@ -39,7 +39,14 @@ const get = async (page) => {
   return returnData;
 };
 
+const getCheck = async (id) => {
+  let res = await axios.get(`${API_URL}/transactions/check?transactionId=${id}`, {responseType: 'blob'});
+
+  return res;
+};
+
 export default {
   create,
-  get
+  get,
+  getCheck
 };

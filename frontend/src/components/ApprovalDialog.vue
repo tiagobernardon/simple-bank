@@ -16,7 +16,7 @@
 
         <v-btn
           text="Cancel"
-          @click="store.setApprovalDialog(false)"
+          @click="store.prepareApprovalDialog(false, null)"
         ></v-btn>
       </v-card-actions>
     </v-card>
@@ -24,12 +24,44 @@
 </template>
 
 <script setup>
+import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAdminStore } from '@/store/admin';
+import transactionService from '@/services/transactionService';
 
 import ApprovalForm from '@/components/ApprovalForm.vue';
 
 const store = useAdminStore();
 
-const { approvalDialog } = storeToRefs(store);
+const loadingCheck = ref(false);
+
+const { approvalDialog, selectedTransaction, currentCheck } = storeToRefs(store);
+
+const fetchCheck = async () => {
+  loadingCheck.value = true;
+
+  await transactionService.getCheck(selectedTransaction.value).then(res => {
+    const file = URL.createObjectURL(res.data);
+    store.setCurrentCheck(file)
+  })
+  .catch((err) => {
+    console.error(err);
+  })
+  .finally(() => {
+    loadingCheck.value = false;
+  });
+};
+
+watch(selectedTransaction, (newValue) => {
+  if (newValue) {
+    fetchCheck();
+  }
+});
+
+watch(approvalDialog, (newValue) => {
+  if (!newValue) {
+    store.unsetSelectedTransaction();
+    store.setCurrentCheck(null);
+  }
+});
 </script>

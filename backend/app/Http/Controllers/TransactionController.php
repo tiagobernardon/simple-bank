@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
 use App\Models\Transaction;
 use App\Services\TransactionService;
+use Illuminate\Support\Facades\Storage;
 
 class TransactionController extends Controller
 {
@@ -35,9 +36,11 @@ class TransactionController extends Controller
         return response()->json()->setStatusCode(403);
     }
 
-    public function getCheck()
+    public function getCheck(Request $request)
     {
-        return response()->json('test', 200);
+        $fullpath = 'checks/' . $request->transactionId . '.png';
+        $path = Storage::path($fullpath);
+        return response()->file($path);
     }
 
     public function update(UpdateTransactionRequest $request, Transaction $transaction)

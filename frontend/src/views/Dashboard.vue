@@ -226,6 +226,7 @@ onMounted(async () => {
 watch(refreshDashboard, (newValue) => {
   if (newValue) {
     fetchTransactions(currentPage.value);
+    fetchBalance();
     transactionStore.setRefreshDashboard(false);
   }
 });

@@ -80,7 +80,6 @@
 
           <template v-slot:item="{ item }">
             <tr>
-
               <td>
                 {{ item.description }}
               </td>

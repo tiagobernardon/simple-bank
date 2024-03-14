@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('transactions')->insert([
             'amount' => 56.00,
-            'description' => 'only for 3',
+            'description' => 'user_id3 3',
             'type' => 'DEPOSIT',
             'status' => 'PENDING',
             'user_id' => 3,
@@ -84,7 +84,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('transactions')->insert([
             'amount' => 142.76,
-            'description' => 'THIS APPEAR ONLY FOR 2',
+            'description' => 'user_id3',
             'type' => 'DEPOSIT',
             'status' => 'REJECTED',
             'user_id' => 3,

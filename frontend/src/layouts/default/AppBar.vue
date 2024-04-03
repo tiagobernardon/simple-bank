@@ -2,7 +2,7 @@
   <v-app-bar flat color="primary">
     <v-app-bar-nav-icon @click="toggleNavDrawer()"></v-app-bar-nav-icon>
     <v-app-bar-title>
-      BNB BANK
+      SIMPLE BANK
     </v-app-bar-title>
 
     <template v-slot:append>

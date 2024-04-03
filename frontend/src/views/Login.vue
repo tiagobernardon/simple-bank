@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-col md="3">
         <v-card>
-          <v-card-title class="text-center pb-5">BNB Bank Login</v-card-title>
+          <v-card-title class="text-center pb-5">Simple Bank Login</v-card-title>
 
           <v-card-text>
             <v-form validate-on="blur" v-model="isFormValid" @submit.prevent="onLogin">

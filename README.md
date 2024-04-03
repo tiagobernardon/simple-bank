@@ -1,4 +1,4 @@
-# Developer Test
+# Simple Bank
 
 ## Running the project locally
 
@@ -11,12 +11,12 @@
 
 1. **First, clone the project:**
 ```
-git clone https://github.com/tiagobernardon/developer-test.git
+git clone https://github.com/tiagobernardon/simple-bank.git
 ```
 
 2. **Now, navigate to the project directory to proceed with the installation:**
 ```
-cd developer-test
+cd simple-bank
 ```
 
 3. **Let's access the frontend folder to start Docker. In PowerShell, follow the steps below:**
